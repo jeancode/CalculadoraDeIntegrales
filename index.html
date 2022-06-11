@@ -1,0 +1,171 @@
+<html>
+
+    <head>
+        <title>Hola</title>
+        <script>
+        function arrayToString(array) {
+            var string = "";
+            for (var i = 0; i < array.length; i++) {
+                string += array[i];
+            }
+            return string;
+        }
+        function generarIntegrales() {
+            var integrales = [];
+            for (var i = 0; i < 10; i++) {
+                var a = Math.floor(Math.random() * 10);
+                var b = Math.floor(Math.random() * 10);
+                var c = Math.floor(Math.random() * 10);
+                var ex = Math.floor(Math.random() * 10);
+
+                var integral =  a + "x^"+ex+"+" + b + "x+" + c + "";
+                integrales.push(integral);
+            }
+            return integrales;
+        }   
+        function separarMonomios(string) {
+            var monomios = [];
+            var monomio = "";
+            for (var i = 0; i < string.length; i++) {
+                if (string[i] == "+" || string[i] == "-") {
+                monomios.push(monomio);
+                monomio = "";
+                }
+                monomio += string[i];
+            }
+            monomios.push(monomio);
+            return monomios;
+        }
+
+        function separarMonomio(string) {
+            var monomio = [];
+            var coeficiente = "";
+            var variable = "";
+            var exponente = "";
+            for (var i = 0; i < string.length; i++) {
+                if (string[i] == "x") {
+                coeficiente = string.substring(0, i);
+                variable = "x";
+                exponente = string.substring(i + 2, string.length);
+                }
+            }
+            monomio.push(coeficiente);
+            monomio.push(variable);
+            monomio.push(exponente);
+            return monomio;
+        }
+
+        function identificarMonomio(monomio) {
+            if (monomio.indexOf('^') == -1) {
+                if (monomio.indexOf('x') == -1) {
+                    //console.log("numero");
+                    return '3';
+                
+                } else {
+                    //console.log("letra");
+                    return '2';
+                }
+            } else {
+                if (monomio.indexOf('x') == -1) {
+                    //console.log("exponente");
+                    return '1';
+                } else {
+                    //console.log("Letra con exponete");
+                    return '0';
+                }
+            }
+        }
+        function derivarMonomioLetraNumero(monomio) {
+            var coeficiente = monomio.substring(0, monomio.indexOf('x'));
+            return coeficiente;
+        }
+  
+        function derivarMonomioNumero(monomio) {
+        var coeficiente = monomio.substring(0, monomio.indexOf('x'));
+
+        return (coeficiente - coeficiente).toString();
+        }
+        function derivarMonomioLetraConExponente(monomio) {
+            var exponente = monomio.substring(monomio.indexOf('^') + 1);
+            var coeficiente = monomio.substring(0, monomio.indexOf('x'));
+            var resultado = coeficiente * exponente + 'x^' + (exponente - 1);
+            return resultado;
+        }
+        function derivarMonomioNumeroLetraConExponente(monomio) {
+            var exponente = monomio.substring(monomio.indexOf('^') + 1);
+            var coeficiente = monomio.substring(0, monomio.indexOf('x'));
+            var resultado = coeficiente * exponente + 'x^' + (exponente - 1);
+            return resultado;
+        }
+        function derivarMonomio(monomio) {
+            var coeficiente = monomio[0];
+            var variable = monomio[1];
+            var exponente = monomio[2];
+            var derivada = "";
+            if (exponente == "0") {
+                derivada = "0";
+
+            } else if (exponente == "1") {
+                derivada = coeficiente;
+            } else {
+                derivada = coeficiente * exponente + variable + "^" + (exponente - 1);
+            }
+            return derivada;
+        }
+        
+  
+        var integral =  generarIntegrales();
+        console.log(integral);
+
+        var monomio = separarMonomios(integral[0]);
+
+       
+        
+        console.log(monomio)
+        for(var i in monomio){
+            
+            //console.log(monomio[i])
+            var tipo =  identificarMonomio(monomio[i]);
+                var monimioParts = separarMonomio(monomio[i]);
+
+            //console.log(arrayToString(monimioParts));
+            
+            //console.log(tipo);      
+            if(tipo == 0){
+
+                var dera = derivarMonomioNumeroLetraConExponente(monomio[i]);
+                console.log(dera);
+            }else if(tipo == 1){
+
+                var derb = derivarMonomioNumero(monomio[i]);
+                console.log(derb);
+
+            }else if(tipo == 2){
+
+                var derc =  derivarMonomioLetraNumero(monomio[i]);
+               console.log(derc);
+
+            }
+            else if(tipo == 3){
+
+                var derc =  derivarMonomioNumero(monomio[i]);
+                console.log(derc);
+
+            }
+            
+            //var derivada = derivarMonomio(monimioParts);
+            //console.log(derivada);
+
+
+
+        }
+
+        
+
+
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
